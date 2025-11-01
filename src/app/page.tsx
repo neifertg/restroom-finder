@@ -8,7 +8,7 @@ export default function Home() {
         <div className="text-center max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-6xl font-bold text-slate-900 mb-6">
             Vote Based on Your Values,{' '}
-            <span className="text-emerald-600">Not Party Lines</span>
+            <span className="text-patriot-blue-700">Not Party Lines</span>
           </h1>
           <p className="text-xl md:text-2xl text-slate-600 mb-12 leading-relaxed">
             Discover which candidates align with your views on the issues that matter most to you.
@@ -16,7 +16,7 @@ export default function Home() {
 
           <Link
             href="/onboarding/zip-code"
-            className="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-lg px-8 py-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200"
+            className="inline-block bg-patriot-red-600 hover:bg-patriot-red-700 text-white font-semibold text-lg px-8 py-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200"
           >
             Get Started
           </Link>
@@ -34,8 +34,8 @@ export default function Home() {
 
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-white p-8 rounded-xl shadow-md">
-              <div className="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mb-4">
-                <span className="text-2xl font-bold text-emerald-600">1</span>
+              <div className="w-12 h-12 bg-patriot-blue-100 rounded-lg flex items-center justify-center mb-4">
+                <span className="text-2xl font-bold text-patriot-blue-700">1</span>
               </div>
               <h3 className="text-xl font-semibold text-slate-900 mb-3">
                 Take a Quick Quiz
@@ -46,8 +46,8 @@ export default function Home() {
             </div>
 
             <div className="bg-white p-8 rounded-xl shadow-md">
-              <div className="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mb-4">
-                <span className="text-2xl font-bold text-emerald-600">2</span>
+              <div className="w-12 h-12 bg-patriot-red-100 rounded-lg flex items-center justify-center mb-4">
+                <span className="text-2xl font-bold text-patriot-red-700">2</span>
               </div>
               <h3 className="text-xl font-semibold text-slate-900 mb-3">
                 See Your Matches
@@ -58,8 +58,8 @@ export default function Home() {
             </div>
 
             <div className="bg-white p-8 rounded-xl shadow-md">
-              <div className="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mb-4">
-                <span className="text-2xl font-bold text-emerald-600">3</span>
+              <div className="w-12 h-12 bg-patriot-blue-100 rounded-lg flex items-center justify-center mb-4">
+                <span className="text-2xl font-bold text-patriot-blue-700">3</span>
               </div>
               <h3 className="text-xl font-semibold text-slate-900 mb-3">
                 Make Informed Decisions
@@ -79,8 +79,8 @@ export default function Home() {
 
           <div className="space-y-6">
             <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center mt-1">
-                <svg className="w-4 h-4 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
+              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-patriot-blue-100 flex items-center justify-center mt-1">
+                <svg className="w-4 h-4 text-patriot-blue-700" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
               </div>
@@ -91,8 +91,8 @@ export default function Home() {
             </div>
 
             <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center mt-1">
-                <svg className="w-4 h-4 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
+              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-patriot-blue-100 flex items-center justify-center mt-1">
+                <svg className="w-4 h-4 text-patriot-blue-700" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
               </div>
@@ -103,8 +103,8 @@ export default function Home() {
             </div>
 
             <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center mt-1">
-                <svg className="w-4 h-4 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
+              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-patriot-blue-100 flex items-center justify-center mt-1">
+                <svg className="w-4 h-4 text-patriot-blue-700" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
               </div>
@@ -115,8 +115,8 @@ export default function Home() {
             </div>
 
             <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center mt-1">
-                <svg className="w-4 h-4 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
+              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-patriot-blue-100 flex items-center justify-center mt-1">
+                <svg className="w-4 h-4 text-patriot-blue-700" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
               </div>
@@ -132,7 +132,7 @@ export default function Home() {
         <div className="mt-16 text-center">
           <Link
             href="/onboarding/zip-code"
-            className="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-lg px-8 py-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200"
+            className="inline-block bg-patriot-red-600 hover:bg-patriot-red-700 text-white font-semibold text-lg px-8 py-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200"
           >
             Start Matching with Candidates
           </Link>
