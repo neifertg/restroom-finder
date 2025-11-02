@@ -189,6 +189,29 @@ export default function ResultsPage() {
 
       <main className="container mx-auto px-4 py-8 md:py-12">
         <div className="max-w-4xl mx-auto">
+          {/* Demo Data Disclaimer */}
+          <div className="mb-6 bg-amber-50 border-l-4 border-amber-400 rounded-r-lg p-4 shadow-sm">
+            <div className="flex gap-3">
+              <svg className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <div>
+                <h3 className="font-semibold text-amber-900 mb-1">Demo Data Notice</h3>
+                <p className="text-sm text-amber-800 leading-relaxed">
+                  <strong>Candidate positions shown are illustrative examples only.</strong> While candidate names may be real, their positions on issues are generated for demonstration purposes and do not reflect actual candidate stances. This platform is currently in development. For accurate candidate information, please visit official campaign websites or trusted voter information sources like{' '}
+                  <a href="https://www.vote411.org" target="_blank" rel="noopener noreferrer" className="underline hover:text-amber-900 font-medium">
+                    Vote411.org
+                  </a>
+                  {' '}or{' '}
+                  <a href="https://www.ballotpedia.org" target="_blank" rel="noopener noreferrer" className="underline hover:text-amber-900 font-medium">
+                    Ballotpedia.org
+                  </a>
+                  .
+                </p>
+              </div>
+            </div>
+          </div>
+
           {matches.length === 0 ? (
             <div className="bg-white rounded-xl shadow-md p-8 text-center">
               <p className="text-lg text-slate-600 mb-4">

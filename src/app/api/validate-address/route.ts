@@ -38,40 +38,41 @@ export async function GET(request: Request) {
     const response = await fetch(url);
     const data = await response.json();
 
-    if (!response.ok) {
-      // If address validation fails but it's a zip code, allow it
-      if (/^\d{5}$/.test(address.trim())) {
-        return NextResponse.json({
-          success: true,
-          normalizedAddress: address.trim(),
-          zipCode: address.trim(),
-          fallback: true,
-        });
-      }
+    // Check if we got a valid response with normalized address data
+    if (response.ok && data.normalizedInput) {
+      // Extract normalized address from response
+      const normalizedAddress = data.normalizedInput.line1
+        ? `${data.normalizedInput.line1}, ${data.normalizedInput.city}, ${data.normalizedInput.state} ${data.normalizedInput.zip}`
+        : address;
 
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Unable to validate address. Please check the address and try again.'
-        },
-        { status: 400 }
-      );
+      const zipCode = data.normalizedInput.zip?.substring(0, 5) || '';
+
+      return NextResponse.json({
+        success: true,
+        normalizedAddress,
+        zipCode,
+        divisions: data.divisions ? Object.keys(data.divisions) : [],
+        hasElectionData: !!data.offices,
+      });
     }
 
-    // Extract normalized address from response
-    const normalizedAddress = data.normalizedInput?.line1
-      ? `${data.normalizedInput.line1}, ${data.normalizedInput.city}, ${data.normalizedInput.state} ${data.normalizedInput.zip}`
-      : address;
+    // If validation fails, try fallback for zip codes
+    if (/^\d{5}$/.test(address.trim())) {
+      return NextResponse.json({
+        success: true,
+        normalizedAddress: address.trim(),
+        zipCode: address.trim(),
+        fallback: true,
+      });
+    }
 
-    const zipCode = data.normalizedInput?.zip?.substring(0, 5) || '';
-
-    return NextResponse.json({
-      success: true,
-      normalizedAddress,
-      zipCode,
-      divisions: data.divisions ? Object.keys(data.divisions) : [],
-      hasElectionData: true,
-    });
+    return NextResponse.json(
+      {
+        success: false,
+        error: 'Unable to validate address. Please check the address and try again, or use just your zip code.'
+      },
+      { status: 400 }
+    );
   } catch (error) {
     console.error('Error validating address:', error);
 
