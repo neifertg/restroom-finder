@@ -19,8 +19,9 @@ export async function GET(request: Request) {
     if (zipCode) {
       const state = getStateFromZip(zipCode);
       if (state) {
-        // Get issues that include this state in their locations array
-        query = query.contains('locations', [state]);
+        // Get issues that include this state in their locations array OR have no location filter
+        // Using cs (contains) operator with single element array to check if state is in the locations array
+        query = query.or(`locations.cs.{${state}},locations.is.null`);
       }
     }
 
