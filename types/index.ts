@@ -14,6 +14,32 @@ export interface Restroom {
   distance?: number; // Distance from user in miles
   created_at: string;
   updated_at: string;
+  // Review ratings
+  cleanliness_rating?: number;
+  privacy_rating?: number;
+  availability_rating?: number;
+  review_count?: number;
+}
+
+export interface Review {
+  id: string;
+  restroom_id: string;
+  user_name?: string;
+  rating: number; // Overall rating 1-5
+  cleanliness_rating: number; // 1-5
+  privacy_rating: number; // 1-5
+  availability_rating: number; // 1-5
+  comment?: string;
+  created_at: string;
+}
+
+export interface ReviewFormData {
+  rating: number;
+  cleanliness_rating: number;
+  privacy_rating: number;
+  availability_rating: number;
+  comment: string;
+  user_name: string;
 }
 
 export interface UserLocation {
