@@ -1,85 +1,135 @@
 # Restroom Finder
 
-A modern web application to help users find the nearest public restroom based on their current location.
+A modern, accessible web application that helps users find nearby public restrooms with detailed information about accessibility, gender-neutral facilities, and user reviews.
 
 ## Overview
 
-Restroom Finder is a location-based service that helps people quickly locate nearby public restrooms. The app uses geolocation to pinpoint the user's current position and displays the closest restroom facilities on an interactive map.
+Restroom Finder is a location-based service built with Next.js that helps people quickly locate public restrooms near their current location. The app combines data from the Refuge Restrooms API with a custom Supabase database to provide comprehensive, up-to-date information about restroom facilities.
 
 ## Features
 
-### Core Features (MVP)
+### Current Features
 - **Real-time Location Detection** - Automatically detect user's current location using browser geolocation API
-- **Nearest Restroom Search** - Find and display the closest public restrooms
-- **Interactive Map View** - Show restrooms on an interactive map with markers
-- **Distance Calculation** - Display distance from user to each restroom
-- **Restroom Details** - Show basic information (name, address, hours)
+- **Dual View Modes** - Switch between list and interactive Google Maps view
+- **Smart Data Sourcing** - Hybrid approach using both cached database and Refuge Restrooms API
+- **Geospatial Search** - PostGIS-powered distance calculations for accurate nearby results
+- **Distance Display** - Shows distance in miles or feet from your current location
+- **Accessibility Information** - Filter and identify ADA-compliant restrooms
+- **Gender-Neutral Facilities** - Clear indicators for gender-neutral restrooms
+- **Interactive Map** - Google Maps integration with custom markers and info windows
+- **Restroom Details Modal** - Detailed view with all amenities and features
+- **Google Maps Directions** - One-click directions to any restroom
+- **Review System** - Rate restrooms on cleanliness, privacy, and availability
+- **Responsive Design** - Works seamlessly on desktop and mobile devices
 
-### Future Features
-- **User Ratings & Reviews** - Allow users to rate and review restroom facilities
-- **Accessibility Information** - Filter for ADA-compliant restrooms
-- **Real-time Availability** - Show if restroom is currently open/closed
+### Upcoming Features
+- **Advanced Filters** - Filter by accessibility, gender-neutral, hours, ratings
 - **User Contributions** - Allow users to add new restroom locations
-- **Directions** - Provide navigation directions to selected restroom
-- **Filters** - Filter by gender-neutral, family-friendly, cleanliness ratings, etc.
-- **Offline Mode** - Cache nearby restrooms for offline access
+- **Favorites System** - Save frequently used restrooms
+- **Photo Uploads** - Add photos to restroom listings
+- **Report Issues** - Flag outdated or incorrect information
 
 ## Tech Stack
 
-- **Framework**: Next.js 16 with App Router
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
+- **Framework**: Next.js 16.0.1 with App Router and Turbopack
+- **Language**: TypeScript 5.x
+- **Styling**: Tailwind CSS 3.x
+- **Maps**: Google Maps JavaScript API with @react-google-maps/api
+- **Database**: Supabase (PostgreSQL with PostGIS extension)
 - **Geolocation**: Browser Geolocation API
-- **Maps**: Google Maps API (or Mapbox/Leaflet)
-- **Database**: Supabase (PostgreSQL)
+- **External APIs**: Refuge Restrooms API
 - **Deployment**: Vercel
 
 ## Data Sources
 
-The app will aggregate restroom data from multiple sources:
-- **Refuge Restrooms API** - Crowd-sourced database of gender-neutral and accessible restrooms
-- **Google Places API** - Commercial establishments with public restrooms
-- **Public Toilet API** - International public toilet database
-- **User Contributions** - Community-submitted locations
+The app aggregates restroom data from multiple sources:
+- **Refuge Restrooms API** - Primary data source with crowd-sourced database of gender-neutral and accessible restrooms
+- **Supabase Database** - Caches API results and stores user-submitted locations
+- **User Contributions** - Community-submitted locations (coming soon)
+
+### Smart Caching Strategy
+The app uses a hybrid approach:
+1. First checks the Supabase database for cached nearby restrooms
+2. If no results found, queries the Refuge Restrooms API
+3. Automatically caches API results in Supabase for faster future queries
+4. Uses PostGIS geospatial queries for accurate distance calculations
 
 ## Getting Started
 
 ### Prerequisites
 - Node.js 18+ installed
 - npm or yarn package manager
+- Google Maps API key ([Get one here](https://console.cloud.google.com/google/maps-apis))
+- Supabase account ([Sign up here](https://supabase.com))
 
 ### Installation
 
+1. **Clone the repository**
 ```bash
-# Install dependencies
+git clone https://github.com/neifertg/restroom-finder.git
+cd restroom-finder
+```
+
+2. **Install dependencies**
+```bash
 npm install
+```
 
-# Set up environment variables
+3. **Set up Supabase**
+   - Create a new project in [Supabase Dashboard](https://supabase.com/dashboard)
+   - Go to the SQL Editor and run the contents of `supabase-schema.sql`
+   - This will create all necessary tables, indexes, and functions
+
+4. **Configure environment variables**
+```bash
 cp .env.example .env.local
-# Add your API keys to .env.local
-
-# Run the development server
-npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the app.
+Edit `.env.local` with your actual credentials:
 
-### Environment Variables
-
-Create a `.env.local` file with the following variables:
-
-```
+```env
 # Google Maps API Key
-NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_key_here
+# Get from: https://console.cloud.google.com/google/maps-apis
+NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_google_maps_api_key
 
-# Supabase
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+# Supabase Configuration
+# Get from: https://supabase.com/dashboard/project/_/settings/api
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
 SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 
-# Optional: Refuge Restrooms API
-REFUGE_RESTROOMS_API_KEY=your_key_here
+# App Configuration
+NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
+
+5. **Run the development server**
+```bash
+npm run dev
+```
+
+6. **Open the app**
+   - Navigate to [http://localhost:3000](http://localhost:3000)
+   - Allow location permissions when prompted
+   - Search for nearby restrooms
+
+### Setting Up Google Maps API
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com)
+2. Create a new project or select an existing one
+3. Enable the following APIs:
+   - Maps JavaScript API
+   - Places API (optional, for future features)
+4. Create credentials (API Key)
+5. Restrict the key to your domain for production use
+
+### Setting Up Supabase
+
+1. Create a new project at [supabase.com](https://supabase.com)
+2. Wait for the project to initialize
+3. Go to **SQL Editor** in the sidebar
+4. Copy the contents of `supabase-schema.sql` and run it
+5. Verify the tables were created in **Table Editor**
+6. Copy your project URL and keys from **Settings > API**
 
 ## Project Structure
 

@@ -29,8 +29,9 @@ CREATE TABLE IF NOT EXISTS restrooms (
 );
 
 -- Create spatial index for fast location-based queries
+-- Using a simpler geometry-based index instead of geography
 CREATE INDEX idx_restrooms_location ON restrooms USING GIST (
-  ST_MakePoint(longitude, latitude)::geography
+  ST_SetSRID(ST_MakePoint(longitude, latitude), 4326)
 );
 
 -- Create regular indexes
@@ -175,14 +176,14 @@ BEGIN
     r.availability_rating,
     r.review_count,
     (ST_Distance(
-      ST_MakePoint(user_lng, user_lat)::geography,
-      ST_MakePoint(r.longitude, r.latitude)::geography
+      ST_SetSRID(ST_MakePoint(user_lng, user_lat), 4326)::geography,
+      ST_SetSRID(ST_MakePoint(r.longitude, r.latitude), 4326)::geography
     ) * 0.000621371)::DECIMAL(10,2) AS distance_miles,
     r.created_at
   FROM restrooms r
   WHERE ST_DWithin(
-    ST_MakePoint(user_lng, user_lat)::geography,
-    ST_MakePoint(r.longitude, r.latitude)::geography,
+    ST_SetSRID(ST_MakePoint(user_lng, user_lat), 4326)::geography,
+    ST_SetSRID(ST_MakePoint(r.longitude, r.latitude), 4326)::geography,
     radius_miles * 1609.34  -- Convert miles to meters
   )
   ORDER BY distance_miles ASC

@@ -4,6 +4,9 @@ import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Restroom } from '@/types';
 import { formatDistance } from '@/lib/distance';
+import GoogleMapComponent from '@/components/Map/GoogleMap';
+
+type ViewMode = 'list' | 'map';
 
 export default function MapPage() {
   const router = useRouter();
@@ -12,6 +15,7 @@ export default function MapPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>('');
   const [selectedRestroom, setSelectedRestroom] = useState<Restroom | null>(null);
+  const [viewMode, setViewMode] = useState<ViewMode>('list');
 
   const lat = searchParams.get('lat');
   const lng = searchParams.get('lng');
@@ -73,7 +77,29 @@ export default function MapPage() {
               <span className="font-medium">Back</span>
             </button>
             <h1 className="text-lg font-bold text-gray-900">Nearby Restrooms</h1>
-            <div className="w-16"></div> {/* Spacer for centering */}
+            {/* View Toggle */}
+            <div className="flex gap-1 bg-gray-100 rounded-lg p-1">
+              <button
+                onClick={() => setViewMode('list')}
+                className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                  viewMode === 'list'
+                    ? 'bg-white text-gray-900 shadow-sm'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                List
+              </button>
+              <button
+                onClick={() => setViewMode('map')}
+                className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                  viewMode === 'map'
+                    ? 'bg-white text-gray-900 shadow-sm'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                Map
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -114,8 +140,21 @@ export default function MapPage() {
           </div>
         )}
 
+        {/* Map View */}
+        {!loading && !error && restrooms.length > 0 && viewMode === 'map' && lat && lng && (
+          <div className="h-[calc(100vh-10rem)]">
+            <GoogleMapComponent
+              center={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
+              restrooms={restrooms}
+              selectedRestroom={selectedRestroom}
+              onMarkerClick={setSelectedRestroom}
+              onInfoWindowClose={() => setSelectedRestroom(null)}
+            />
+          </div>
+        )}
+
         {/* Restrooms List */}
-        {!loading && !error && restrooms.length > 0 && (
+        {!loading && !error && restrooms.length > 0 && viewMode === 'list' && (
           <div className="max-w-4xl mx-auto">
             {/* Results Count */}
             <div className="mb-4 text-gray-600">

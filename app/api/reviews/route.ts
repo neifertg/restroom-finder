@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { supabase } from '@/lib/supabase';
 
 export async function POST(request: NextRequest) {
   try {
@@ -22,19 +23,32 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // For now, we'll return success without persisting to a database
-    // In a real app, you would save this to your database here
-    const review = {
-      id: Date.now().toString(),
-      restroom_id,
-      user_name: user_name || 'Anonymous',
-      rating,
-      cleanliness_rating,
-      privacy_rating,
-      availability_rating,
-      comment: comment || '',
-      created_at: new Date().toISOString(),
-    };
+    // Insert review into Supabase
+    const { data: review, error } = await supabase
+      .from('reviews')
+      .insert({
+        restroom_id,
+        user_name: user_name || 'Anonymous',
+        rating,
+        cleanliness_rating,
+        privacy_rating,
+        availability_rating,
+        comment: comment || '',
+      })
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Supabase error:', error);
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Failed to save review',
+          details: error.message
+        },
+        { status: 500 }
+      );
+    }
 
     console.log('Review submitted:', review);
 
@@ -69,37 +83,29 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // For now, return mock reviews
-    // In a real app, you would fetch from your database
-    const mockReviews = [
-      {
-        id: '1',
-        restroom_id: restroomId,
-        user_name: 'Sarah M.',
-        rating: 5,
-        cleanliness_rating: 5,
-        privacy_rating: 4,
-        availability_rating: 5,
-        comment: 'Very clean and well-maintained. Easy to find.',
-        created_at: new Date(Date.now() - 86400000 * 2).toISOString(),
-      },
-      {
-        id: '2',
-        restroom_id: restroomId,
-        user_name: 'Anonymous',
-        rating: 4,
-        cleanliness_rating: 4,
-        privacy_rating: 5,
-        availability_rating: 3,
-        comment: 'Good facilities, sometimes busy during peak hours.',
-        created_at: new Date(Date.now() - 86400000 * 5).toISOString(),
-      },
-    ];
+    // Fetch reviews from Supabase
+    const { data: reviews, error } = await supabase
+      .from('reviews')
+      .select('*')
+      .eq('restroom_id', restroomId)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Supabase error:', error);
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Failed to fetch reviews',
+          details: error.message
+        },
+        { status: 500 }
+      );
+    }
 
     return NextResponse.json({
       success: true,
-      reviews: mockReviews,
-      count: mockReviews.length,
+      reviews: reviews || [],
+      count: reviews?.length || 0,
     });
 
   } catch (error) {
